@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Información del Estudiante{% endblock %}
 {% block content %}
+<h2>Información de {{ student.name }}</h2>
 <div class="student-header">
   {% if student.photo %}
     <img src="{{ url_for('static', filename='student_photos/' ~ student.photo) }}" alt="Foto" class="main-photo">
@@ -8,29 +9,34 @@
     <img src="{{ url_for('static', filename='student_photos/default.png') }}" alt="Foto" class="main-photo">
   {% endif %}
   <div>
-    <h2>{{ student.name }}</h2>
-    <p>Documento: {{ student.document }}</p>
-    <p>{{ student.info }}</p>
+    <p><strong>Documento:</strong> {{ student.document }}</p>
+    <p><strong>Información:</strong> {{ student.info }}</p>
+    <a href="{{ url_for('update_photo', student_id=student.id) }}" class="btn-main">Actualizar foto</a>
   </div>
 </div>
+
 <h3>Materias</h3>
 <ul>
   {% for subject in subjects %}
     <li>
-      <a href="{{ url_for('add_grades', student_id=student.id, subject_id=subject.id) }}">{{ subject.name }}</a>
+      <strong>{{ subject.name }}</strong>
+      <a href="{{ url_for('add_grades', student_id=student.id, subject_id=subject.id) }}" class="btn-main">Agregar notas</a>
+      <a href="{{ url_for('grades_calculation', student_id=student.id, subject_id=subject.id) }}" class="btn-main">Ver nota final</a>
     </li>
   {% endfor %}
 </ul>
+
 <h3>Concesiones</h3>
 <ul>
   {% for concession in concessions %}
-    <li>{{ concession.description }}
-      <a href="{{ url_for('delete_concession', concession_id=concession.id) }}" style="color: red;">Eliminar</a>
+    <li>
+      {{ concession.description }}
+      <a href="{{ url_for('delete_concession', concession_id=concession.id) }}" class="btn-main" style="background:#a00; color:#fff;">Eliminar</a>
     </li>
   {% endfor %}
 </ul>
 <form method="POST" action="{{ url_for('add_concession', student_id=student.id) }}">
-    <input type="text" name="description" placeholder="Nueva concesión" required>
-    <button type="submit">Agregar Concesión</button>
+    <input type="text" name="description" placeholder="Nueva concesión..." required>
+    <button type="submit" class="btn-main">Agregar concesión</button>
 </form>
 {% endblock %}

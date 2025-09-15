@@ -2,7 +2,11 @@
 <html lang="es">
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body, h2, h3 { font-family: 'Orbitron', 'Montserrat', 'Segoe UI', sans-serif; }
+    </style>
 </head>
 <body>
     <div class="layout">
@@ -12,7 +16,7 @@
                 <li><a href="{{ url_for('student_info', student_id=session.get('user_id')) }}">Información</a></li>
                 <li><a href="{{ url_for('add_grades', student_id=session.get('user_id'), subject_id=1) }}">Notas</a></li>
                 <li><a href="{{ url_for('grades_calculation', student_id=session.get('user_id'), subject_id=1) }}">Nota final</a></li>
-                <li><a href="#">Actividades</a></li>
+                <li><a href="{{ url_for('activities', student_id=session.get('user_id')) }}">Actividades</a></li>
             </ul>
         </nav>
         <div class="container">

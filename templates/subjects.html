@@ -2,16 +2,26 @@
 {% block title %}Materias{% endblock %}
 {% block content %}
 <h2>Materias</h2>
-<ul>
-    {% for subject in subjects %}
-        <li>{{ subject.name }}
-            <a href="{{ url_for('delete_subject', subject_id=subject.id) }}" style="color: red;">Eliminar</a>
-        </li>
-    {% endfor %}
-</ul>
 <form method="POST" action="{{ url_for('add_subject') }}">
-    <input type="text" name="name" placeholder="Nueva materia" required>
-    <button type="submit">Agregar Materia</button>
+    <input type="text" name="name" placeholder="Nombre de la materia" required>
+    <button type="submit" class="btn-main">Agregar materia</button>
 </form>
-<a href="{{ url_for('dashboard') }}">Volver al panel</a>
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for subject in subjects %}
+        <tr>
+            <td>{{ subject.name }}</td>
+            <td>
+                <a href="{{ url_for('delete_subject', subject_id=subject.id) }}" class="btn-main" style="background:#a00; color:#fff;">Eliminar</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

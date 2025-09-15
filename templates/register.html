@@ -1,20 +1,33 @@
-{% extends "base.html" %}
-{% block title %}Registrarse{% endblock %}
-{% block content %}
-<h2>Registro</h2>
-<form method="POST">
-    <input type="text" name="username" placeholder="Usuario" required>
-    <input type="password" name="password" placeholder="Contraseña" required>
-    <button type="submit">Registrar</button>
-</form>
-<a href="{{ url_for('login') }}">¿Ya tienes cuenta? Inicia sesión</a>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Registro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body, h2 { font-family: 'Orbitron', 'Montserrat', 'Segoe UI', sans-serif; }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width: 400px; margin: 80px auto; background: rgba(36,59,85,0.85); padding: 32px; border-radius: 14px; box-shadow: 0 4px 24px #09fbd344;">
+        <h2 style="text-align:center; margin-bottom:30px;">Registro</h2>
+        <form method="POST">
+            <input type="text" name="username" placeholder="Usuario" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <input type="submit" value="Registrar" class="btn-main">
+        </form>
+        <div style="text-align:center; margin-top:20px;">
+            <a href="{{ url_for('login') }}">¿Ya tienes una cuenta? Inicia sesión</a>
+        </div>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul>
+            {% for message in messages %}
+              <li style="color:#fee440; font-weight:bold;">{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>

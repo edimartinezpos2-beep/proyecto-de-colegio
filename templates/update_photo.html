@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Actualizar Foto{% endblock %}
 {% block content %}
-<h2>Actualizar foto de perfil</h2>
+<h2>Actualizar foto de {{ student.name }}</h2>
 <form method="POST" enctype="multipart/form-data">
-    <input type="file" name="photo" accept=".png,.jpg,.jpeg,.gif" required>
-    <button type="submit">Actualizar foto</button>
+    <input type="file" name="photo" accept="image/*" required>
+    <button type="submit" class="btn-main">Actualizar foto</button>
 </form>
-<a href="{{ url_for('dashboard') }}">Volver</a>
+<a href="{{ url_for('dashboard') }}" class="btn-main">Volver al panel</a>
 {% endblock %}

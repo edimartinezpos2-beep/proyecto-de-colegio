@@ -1,20 +1,36 @@
 {% extends "base.html" %}
-{% block title %}Panel Principal{% endblock %}
+{% block title %}Panel de Control{% endblock %}
 {% block content %}
-<h2>Bienvenido/a, {{ student.name }}</h2>
-<div class="student-header">
-  {% if student.photo %}
-    <img src="{{ url_for('static', filename='student_photos/' ~ student.photo) }}" alt="Foto" class="main-photo">
-  {% else %}
-    <img src="{{ url_for('static', filename='student_photos/default.png') }}" alt="Foto" class="main-photo">
-  {% endif %}
-  <div>
-    <p><strong>Documento:</strong> {{ student.document }}</p>
-    <p><strong>Información:</strong> {{ student.info }}</p>
-    <a href="{{ url_for('update_photo', student_id=student.id) }}" class="btn-main">Agregar/Actualizar foto</a>
-  </div>
-</div>
-<div style="margin-bottom: 30px;"></div>
-<a href="{{ url_for('add_grades', student_id=student.id, subject_id=1) }}" class="btn-main">Agregar notas</a>
-<a href="{{ url_for('grades_calculation', student_id=student.id, subject_id=1) }}" class="btn-main">Ver nota final</a>
+<h2>Bienvenido, {{ student.name }}</h2>
+
+<h3>Materias</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Materia</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for subject in subjects %}
+    <tr>
+      <td>{{ subject.name }}</td>
+      <td>
+        <!-- Botón para agregar notas -->
+        <a href="{{ url_for('add_grades', student_id=student.id, subject_id=subject.id) }}" class="btn-main">Agregar notas</a>
+        <!-- Botón para ver notas finales -->
+        <a href="{{ url_for('grades_calculation', student_id=student.id, subject_id=subject.id) }}" class="btn-main">Notas finales</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h3>Agenda Personal</h3>
+<!-- Botón para ver actividades/agenda -->
+<a href="{{ url_for('activities', student_id=student.id) }}" class="btn-main">Ver Agenda</a>
+
+<!-- Opcional: enlace para editar tu foto o información -->
+<a href="{{ url_for('update_photo', student_id=student.id) }}" class="btn-main">Actualizar Foto</a>
+
 {% endblock %}

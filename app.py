@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from models import db, User, Student, Subject, Grade, Concession
+from models import db, User, Student, Subject, Grade, Concession, Activity
+from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import os
@@ -51,7 +52,6 @@ def register():
             new_user = User(username=username, password=password)
             db.session.add(new_user)
             db.session.commit()
-            # Al registrar el usuario, crea también el estudiante
             student = Student(id=new_user.id, name=username, document='', info='', photo=None)
             db.session.add(student)
             db.session.commit()
@@ -86,7 +86,7 @@ def student_info(student_id):
     student = Student.query.get_or_404(student_id)
     subjects = Subject.query.all()
     concessions = Concession.query.filter_by(student_id=student.id).all()
-    return render_template('student_info', student=student, subjects=subjects, concessions=concessions)
+    return render_template('student_info.html', student=student, subjects=subjects, concessions=concessions)
 
 @app.route('/update_photo/<int:student_id>', methods=['GET', 'POST'])
 def update_photo(student_id):
@@ -109,19 +109,16 @@ def add_grades(student_id, subject_id):
     student = Student.query.get_or_404(student_id)
     subject = Subject.query.get_or_404(subject_id)
     if request.method == 'POST':
-        i = 1
-        while True:
+        for i in range(1, 6):
             value = request.form.get(f'value_{i}')
             percentage = request.form.get(f'percentage_{i}')
-            if not value or not percentage:
-                break
-            grade = Grade(value=float(value), percentage=float(percentage), student_id=student_id, subject_id=subject_id)
-            db.session.add(grade)
-            i += 1
+            if value and percentage:
+                grade = Grade(value=float(value), percentage=float(percentage), student_id=student_id, subject_id=subject_id)
+                db.session.add(grade)
         db.session.commit()
-        flash('Notas agregadas correctamente')
         return redirect(url_for('grades_calculation', student_id=student_id, subject_id=subject_id))
     return render_template('add_grades.html', student=student, subject=subject)
+
 
 @app.route('/grades_calculation/<int:student_id>/<int:subject_id>')
 def grades_calculation(student_id, subject_id):
@@ -129,7 +126,6 @@ def grades_calculation(student_id, subject_id):
     subject = Subject.query.get_or_404(subject_id)
     grades = Grade.query.filter_by(student_id=student_id, subject_id=subject_id).all()
     total_grade = sum(g.value * g.percentage / 100 for g in grades)
-    # Determinar rango
     if total_grade <= 60:
         rango = 'BJ'
         rango_text = 'Bajo'
@@ -143,7 +139,6 @@ def grades_calculation(student_id, subject_id):
         rango = 'SP'
         rango_text = 'Superior'
     return render_template('grades_calculation.html', student=student, subject=subject, grades=grades, total_grade=total_grade, rango=rango, rango_text=rango_text)
-
 @app.route('/delete_grade/<int:grade_id>')
 def delete_grade(grade_id):
     grade = Grade.query.get_or_404(grade_id)
@@ -188,6 +183,31 @@ def delete_concession(concession_id):
     db.session.delete(concession)
     db.session.commit()
     return redirect(url_for('student_info', student_id=student_id))
+
+# Agenda personal (actividades)
+@app.route('/activities/<int:student_id>')
+def activities(student_id):
+    student = Student.query.get_or_404(student_id)
+    activities = Activity.query.filter_by(student_id=student_id).all()
+    return render_template('activities.html', student=student, activities=activities)
+
+@app.route('/add_activity/<int:student_id>', methods=['POST'])
+def add_activity(student_id):
+    title = request.form['title']
+    description = request.form['description']
+    date = request.form['date']
+    activity = Activity(title=title, description=description, date=date, student_id=student_id)
+    db.session.add(activity)
+    db.session.commit()
+    return redirect(url_for('activities', student_id=student_id))
+
+@app.route('/delete_activity/<int:activity_id>')
+def delete_activity(activity_id):
+    activity = Activity.query.get_or_404(activity_id)
+    student_id = activity.student_id
+    db.session.delete(activity)
+    db.session.commit()
+    return redirect(url_for('activities', student_id=student_id))
 
 if __name__ == '__main__':
     app.run(debug=True)

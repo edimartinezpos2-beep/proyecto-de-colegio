@@ -11,24 +11,33 @@ class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     document = db.Column(db.String(50), nullable=False)
-    photo = db.Column(db.String(200))  # ruta de la foto
+    photo = db.Column(db.String(200))
     info = db.Column(db.String(200))
+    grades = db.relationship('Grade', backref='student', lazy=True)
+    concessions = db.relationship('Concession', backref='student', lazy=True)
+    activities = db.relationship('Activity', backref='student', lazy=True)
 
 class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+    grades = db.relationship('Grade', backref='subject', lazy=True)
 
 class Grade(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.Float, nullable=False)
-    percentage = db.Column(db.Float, nullable=False, default=100)  # porcentaje de la nota
+    percentage = db.Column(db.Float, nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)
-    student = db.relationship('Student', backref=db.backref('grades', lazy=True))
-    subject = db.relationship('Subject', backref=db.backref('grades', lazy=True))
 
 class Concession(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(200), nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
-    student = db.relationship('Student', backref=db.backref('concessions', lazy=True))
+
+class Activity(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
+    description = db.Column(db.String(250))
+    date = db.Column(db.String(20))
+    student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
+

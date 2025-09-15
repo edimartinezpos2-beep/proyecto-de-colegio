@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Agenda Personal{% endblock %}
+{% block content %}
+<h2>Agenda de {{ student.name }}</h2>
+<form method="POST" action="{{ url_for('add_activity', student_id=student.id) }}">
+    <input type="text" name="title" placeholder="Título de la actividad" required>
+    <input type="text" name="description" placeholder="Descripción" required>
+    <input type="date" name="date" required>
+    <button type="submit" class="btn-main">Agregar actividad</button>
+</form>
+<ul>
+    {% for activity in activities %}
+    <li><strong>{{ activity.title }}</strong> - {{ activity.date }}<br>{{ activity.description }}
+        <a href="{{ url_for('delete_activity', activity_id=activity.id) }}" class="btn-main" style="background:#a00; color:#fff;">Eliminar</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

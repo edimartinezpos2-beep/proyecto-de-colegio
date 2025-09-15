@@ -1,24 +1,28 @@
 {% extends "base.html" %}
-{% block title %}Cálculo de Notas{% endblock %}
+{% block title %}Nota Final{% endblock %}
 {% block content %}
-<h2>Notas de {{ subject.name }} para {{ student.name }}</h2>
+<h2>Nota final de {{ student.name }} en {{ subject.name }}</h2>
 <table>
-  <tr>
-    <th>Nota</th>
-    <th>%</th>
-    <th>Valor ponderado</th>
-    <th></th>
-  </tr>
-  {% for grade in grades %}
-  <tr>
-    <td>{{ grade.value }}</td>
-    <td>{{ grade.percentage }}</td>
-    <td>{{ "%.2f"|format(grade.value * grade.percentage / 100) }}</td>
-    <td><a href="{{ url_for('delete_grade', grade_id=grade.id) }}" style="color: red;">Eliminar</a></td>
-  </tr>
-  {% endfor %}
+  <thead>
+    <tr>
+      <th>Valor</th>
+      <th>Porcentaje (%)</th>
+      <th>Eliminar</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for grade in grades %}
+    <tr>
+      <td>{{ grade.value }}</td>
+      <td>{{ grade.percentage }}</td>
+      <td>
+        <a href="{{ url_for('delete_grade', grade_id=grade.id) }}" class="btn-main" style="background:#a00; color:#fff;">Eliminar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
-<p><strong>Nota final:</strong> {{ "%.2f"|format(total_grade) }}</p>
-<p><strong>Rango:</strong> {{ rango }} - {{ rango_text }}</p>
+<h3 style="color:#09fbd3;">Nota final: <span style="color:#fee440;">{{ total_grade|round(2) }}</span></h3>
+<h3>Rango: <span style="color:#fee440;">{{ rango_text }}</span></h3>
 <a href="{{ url_for('student_info', student_id=student.id) }}" class="btn-main">Volver</a>
 {% endblock %}
