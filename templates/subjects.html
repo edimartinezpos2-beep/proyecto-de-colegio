@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Materias{% endblock %}
+{% block content %}
+<h2>Materias</h2>
+<ul>
+    {% for subject in subjects %}
+        <li>{{ subject.name }}
+            <a href="{{ url_for('delete_subject', subject_id=subject.id) }}" style="color: red;">Eliminar</a>
+        </li>
+    {% endfor %}
+</ul>
+<form method="POST" action="{{ url_for('add_subject') }}">
+    <input type="text" name="name" placeholder="Nueva materia" required>
+    <button type="submit">Agregar Materia</button>
+</form>
+<a href="{{ url_for('dashboard') }}">Volver al panel</a>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Panel Principal{% endblock %}
+{% block content %}
+<h2>Bienvenido/a, {{ student.name }}</h2>
+<div class="student-header">
+  {% if student.photo %}
+    <img src="{{ url_for('static', filename='student_photos/' ~ student.photo) }}" alt="Foto" class="main-photo">
+  {% else %}
+    <img src="{{ url_for('static', filename='student_photos/default.png') }}" alt="Foto" class="main-photo">
+  {% endif %}
+  <div>
+    <p><strong>Documento:</strong> {{ student.document }}</p>
+    <p><strong>Información:</strong> {{ student.info }}</p>
+    <a href="{{ url_for('update_photo', student_id=student.id) }}" class="btn-main">Agregar/Actualizar foto</a>
+  </div>
+</div>
+<div style="margin-bottom: 30px;"></div>
+<a href="{{ url_for('add_grades', student_id=student.id, subject_id=1) }}" class="btn-main">Agregar notas</a>
+<a href="{{ url_for('grades_calculation', student_id=student.id, subject_id=1) }}" class="btn-main">Ver nota final</a>
+{% endblock %}

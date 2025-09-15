@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Agregar Estudiante{% endblock %}
+{% block content %}
+<h2>Agregar Estudiante</h2>
+<form method="POST" enctype="multipart/form-data">
+    <input type="text" name="name" placeholder="Nombre completo" required>
+    <input type="text" name="document" placeholder="Documento" required>
+    <input type="text" name="info" placeholder="Información adicional">
+    <input type="file" name="photo" accept=".png,.jpg,.jpeg,.gif">
+    <button type="submit">Agregar</button>
+</form>
+<a href="{{ url_for('dashboard') }}">Volver</a>
+{% endblock %}

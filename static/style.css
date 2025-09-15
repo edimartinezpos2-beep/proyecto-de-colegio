@@ -1,0 +1,110 @@
+body {
+    background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+    font-family: 'Orbitron', 'Segoe UI', Arial, sans-serif;
+    color: #f3f3f3;
+    margin: 0;
+}
+.layout {
+    display: flex;
+}
+.sidebar {
+    width: 220px;
+    background: rgba(44, 83, 100, 0.95);
+    min-height: 100vh;
+    padding-top: 40px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 2px 0 16px rgba(44,83,100,0.24);
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sidebar li {
+    margin: 30px 0;
+}
+.sidebar a {
+    color: #00c6ff;
+    font-size: 1.2em;
+    padding: 12px 24px;
+    display: block;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+.sidebar a:hover {
+    background: #0072ff33;
+}
+.container {
+    max-width: 900px;
+    margin: 40px auto 40px 260px;
+    background: rgba(44, 83, 100, 0.85);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(44, 83, 100, 0.3);
+    padding: 40px;
+}
+h2, h3 {
+    color: #00c6ff;
+    text-shadow: 0 2px 8px #222;
+}
+.btn-main, .btn-view {
+    background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
+    color: #fff;
+    padding: 10px 28px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    box-shadow: 0 2px 8px #00c6ff55;
+    margin: 15px 10px 15px 0;
+    text-decoration: none;
+    transition: background 0.2s, box-shadow 0.2s;
+    display: inline-block;
+}
+.btn-main:hover, .btn-view:hover {
+    background: #0072ff;
+    box-shadow: 0 4px 16px #00c6ff99;
+}
+input, select, button {
+    border-radius: 6px;
+    border: none;
+    padding: 12px;
+    margin: 12px 0;
+    font-size: 1.1em;
+    width: 98%;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    box-shadow: 0 2px 8px #222;
+}
+.grade-item { display: flex; gap: 16px; }
+.student-header { display: flex; align-items: center; margin-bottom: 40px; }
+.main-photo {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #00c6ff;
+    margin-right: 40px;
+}
+.thumb-photo {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #00c6ff;
+}
+table {
+    width: 100%;
+    margin: 30px 0;
+    border-collapse: collapse;
+    background: rgba(0,198,255,0.07);
+}
+th, td {
+    border: 1px solid #00c6ff44;
+    padding: 12px 10px;
+    text-align: center;
+    color: #fff;
+}
+a { color: #00c6ff; }
+a:hover { text-decoration: underline; }

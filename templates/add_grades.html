@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Agregar Notas{% endblock %}
+{% block content %}
+<h2>Agregar Notas a {{ subject.name }}</h2>
+<form method="POST">
+  <div id="grades-container">
+    <div class="grade-item">
+      <input type="number" name="value_1" step="0.01" placeholder="Nota 1" required>
+      <input type="number" name="percentage_1" step="0.01" placeholder="%" required>
+    </div>
+  </div>
+  <button type="button" onclick="addGradeField()">Agregar otra nota</button>
+  <button type="submit">Guardar notas</button>
+</form>
+<script>
+let gradeCount = 1;
+function addGradeField() {
+  gradeCount++;
+  const container = document.getElementById('grades-container');
+  const div = document.createElement('div');
+  div.className = 'grade-item';
+  div.innerHTML = `<input type="number" name="value_${gradeCount}" step="0.01" placeholder="Nota ${gradeCount}" required>
+                   <input type="number" name="percentage_${gradeCount}" step="0.01" placeholder="%" required>`;
+  container.appendChild(div);
+}
+</script>
+<a href="{{ url_for('student_info', student_id=student.id) }}" class="btn-main">Volver</a>
+{% endblock %}

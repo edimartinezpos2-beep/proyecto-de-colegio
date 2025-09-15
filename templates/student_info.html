@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Información del Estudiante{% endblock %}
+{% block content %}
+<div class="student-header">
+  {% if student.photo %}
+    <img src="{{ url_for('static', filename='student_photos/' ~ student.photo) }}" alt="Foto" class="main-photo">
+  {% else %}
+    <img src="{{ url_for('static', filename='student_photos/default.png') }}" alt="Foto" class="main-photo">
+  {% endif %}
+  <div>
+    <h2>{{ student.name }}</h2>
+    <p>Documento: {{ student.document }}</p>
+    <p>{{ student.info }}</p>
+  </div>
+</div>
+<h3>Materias</h3>
+<ul>
+  {% for subject in subjects %}
+    <li>
+      <a href="{{ url_for('add_grades', student_id=student.id, subject_id=subject.id) }}">{{ subject.name }}</a>
+    </li>
+  {% endfor %}
+</ul>
+<h3>Concesiones</h3>
+<ul>
+  {% for concession in concessions %}
+    <li>{{ concession.description }}
+      <a href="{{ url_for('delete_concession', concession_id=concession.id) }}" style="color: red;">Eliminar</a>
+    </li>
+  {% endfor %}
+</ul>
+<form method="POST" action="{{ url_for('add_concession', student_id=student.id) }}">
+    <input type="text" name="description" placeholder="Nueva concesión" required>
+    <button type="submit">Agregar Concesión</button>
+</form>
+{% endblock %}
