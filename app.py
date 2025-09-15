@@ -86,7 +86,7 @@ def student_info(student_id):
     student = Student.query.get_or_404(student_id)
     subjects = Subject.query.all()
     concessions = Concession.query.filter_by(student_id=student.id).all()
-    return render_template('student_info.html', student=student, subjects=subjects, concessions=concessions)
+    return render_template('student_info', student=student, subjects=subjects, concessions=concessions)
 
 @app.route('/update_photo/<int:student_id>', methods=['GET', 'POST'])
 def update_photo(student_id):
